@@ -16,13 +16,23 @@ public class Client {
 		BufferedReader in_socket = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		PrintWriter out_socket = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
 
-		String message = in_socket.readLine();
-		System.out.println("localhost:8080 - " + message);
-		
+//		String message = in_socket.readLine();
+//		System.out.println("localhost:8080 - " + message);
+
+		// Business Logic of the game
 		Scanner keyboard = new Scanner(System.in);
-		System.out.println("localhost:8080 -: ");
-		message = keyboard.nextLine();
-		out_socket.println(message);
+		String user_number;
+
+		while (in_socket.readLine().startsWith("Guess")) {
+			System.out.println("localhost:8080 - Guess a number [1-10]: ");
+//			System.out.println("localhost:8080 - " + in_socket.readLine());
+			user_number = keyboard.nextLine();
+			out_socket.println(user_number);
+		}
+
+//		System.out.println("localhost:8080 - " + in_socket.readLine());
+		System.out.println("localhost:8080 - You got it!");
+		// End of logic of the game
 
 		socket.close();
 		System.out.println("localhost:8080 - Ended");
