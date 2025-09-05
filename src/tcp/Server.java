@@ -15,17 +15,27 @@ public class Server {
 		System.out.println(":8080 - open");
 
 		Socket socket = server_socket.accept();
-		System.out.println(socket.getInetAddress( )+ " - connected.");
+		System.out.println(socket.getInetAddress( )+ " - connected");
 
 		BufferedReader in_socket = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		PrintWriter out_socket = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
 
-		out_socket.println("Welcome!");
-		String message = in_socket.readLine();
-		System.out.println(socket.getInetAddress() + " - " + message);
+		// Business Logic of the game
+		String message;
+		int secret_number = (int)(Math.random() * 10 + 1);
+
+		do {
+			out_socket.println("Guess a number [1-10]: ");
+			message = in_socket.readLine();
+		} while (!(Integer.parseInt(message) == secret_number));
+
+		out_socket.println("You got it!");
+		System.out.println(":8080 - Got the number");
+		System.out.println(":8080 - Secret number is out.  Exiting the app.");
+		// End of logic of the game
 
 		socket.close();
-		System.out.println(socket.getInetAddress() + " - disconnected");
+		System.out.println(socket.getInetAddress() + " - Client disconnected from the game.");
 	}
 
 	public static void main(String[] args) {
