@@ -19,10 +19,10 @@ public class Client {
 		String message = in_socket.readLine();
 		System.out.println("localhost:8080 - " + message);
 
-		Scanner keyboard = new Scanner(System.in);
-		System.out.print(socket.getInetAddress() + " -: ");
-		message = keyboard.nextLine();
-		out_socket.println(message);
+//		Scanner keyboard = new Scanner(System.in);
+//		System.out.print(socket.getInetAddress() + " -: ");
+//		message = keyboard.nextLine();
+		out_socket.println("Sending data");
 
 		socket.close();
 		System.out.println("localhost:8080 - Ended");
