@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class Client {
 
@@ -17,8 +18,12 @@ public class Client {
 
 		String message = in_socket.readLine();
 		System.out.println("localhost:8080 - " + message);
-		
-		out_socket.println("Thank you!");
+
+		Scanner keyboard = new Scanner(System.in);
+		System.out.print(socket.getInetAddress() + " -: ");
+		message = keyboard.nextLine();
+		out_socket.println(message);
+
 		socket.close();
 		System.out.println("localhost:8080 - Ended");
 	}
