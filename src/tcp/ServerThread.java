@@ -21,17 +21,24 @@ public class ServerThread implements Runnable {
 	public void run() {
 		try {
 			int client_number = server_main.getClientNumber();
-			System.out.println(client_number + "" + socket.getInetAddress() + " - connected");
+			String message, header = "client:" + client_number;
+
+			System.out.println(header + ":connected");
 			BufferedReader in_socket = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			PrintWriter out_socket = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
 
-			out_socket.println("Welcome, " + client_number);
+			do {
+				out_socket.println("connected");
+				message = in_socket.readLine();
 
-			String message = in_socket.readLine();
-			System.out.println(client_number + "" + socket.getInetAddress() + " - " + message);
+				System.out.println(header + ":send:" + message.toUpperCase());
+				out_socket.println(message.toUpperCase());
+
+			} while(!message.toLowerCase().startsWith("exit"));
+			out_socket.println("disconect");
 
 			socket.close();
-			System.out.println(client_number + "" + socket.getInetAddress() + " - disconnected");
+			System.out.println(header + ":disconect");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

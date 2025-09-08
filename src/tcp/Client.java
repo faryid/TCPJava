@@ -11,21 +11,24 @@ public class Client {
 
 	public Client() throws Exception {
 		Socket socket = new Socket("localhost", 8080);
-		System.out.println("localhost:8080 - Start");
+		System.out.println("connection:start");
 
 		BufferedReader in_socket = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		PrintWriter out_socket = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
 
-		String message = in_socket.readLine();
-		System.out.println("localhost:8080 - " + message);
+		Scanner keyboard = new Scanner(System.in);
+		String message;
 
-//		Scanner keyboard = new Scanner(System.in);
-//		System.out.print(socket.getInetAddress() + " -: ");
-//		message = keyboard.nextLine();
-		out_socket.println("Sending data");
+		while (in_socket.readLine().startsWith("connected")) {
+			System.out.print("connection:send:");
+			message = keyboard.nextLine();
+			out_socket.println(message);
+			message = in_socket.readLine();
+			System.out.println("connection:receive:" + message);
+		}
 
 		socket.close();
-		System.out.println("localhost:8080 - Ended");
+		System.out.println("connection:ended");
 	}
 
 	public static void main(String[] args) {

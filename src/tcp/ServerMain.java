@@ -9,7 +9,7 @@ public class ServerMain {
 
 	public ServerMain() throws Exception {
 		ServerSocket server_socket = new ServerSocket(8080);
-		System.out.println("::8080 - open");
+		System.out.println("server:open");
 
 		while (true) {
 			Socket socket = server_socket.accept();
