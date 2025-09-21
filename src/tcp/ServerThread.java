@@ -1,4 +1,4 @@
-package bonus_example_2a;
+package bonus_example_2b;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -30,18 +30,40 @@ public class ServerThread implements Runnable {
 			
 			// SOLUTION
 			String message; // this string will store client's messages
-			int secret_number = (int)(Math.random()*20+1); // generating the secret number
+			int secret_number = server_main.getSecretNumber(); // get the secret number from the server
 			
-			do {
-				out_socket.println("Guess a number [1-20]: "); // sending a prompt to the user to guess a number
-				message = in_socket.readLine(); // accepting a message from the user
-			} while (!(Integer.parseInt(message)==secret_number)); // go back to the loop as long the secret number isn't guessed yet
+			out_socket.println("Type in your name: "); // asking the client to type in their name
+			String user = in_socket.readLine(); // reading user's name from socket
 			
-			out_socket.println("You got it!!!"); // as soon as the condition in our do-while loop isn't met, it means the number has been guessed
+			while(true) {
+				out_socket.println("Guess a number [1-20]: "); // telling the user to guess the number
+				message = in_socket.readLine(); // reading user's guess
+				
+				if((Integer.parseInt(message)==secret_number)&&(!server_main.getGuessed())) { // user guessed the number + it hasn't been guessed by anyone else yet
+					server_main.setGuessed(); // set boolean guessed to true since the number is out
+					server_main.setWhoGuessedIt(user); // memorize who has guessed the number
+					out_socket.println("User " + server_main.getWhoGuessedIt() + " has guessed the number!"); // sending to the client that guessed it
+					System.out.println("User \" + server_main.getWhoGuessedIt() + \" has guessed the number!"); // print out the same info in the console
+					socket.close(); // close the socket
+					System.out.println("Client " + client_number + ". has disconnected.");
+					break; // get out of the infinite loop
+				}
+				else if ((Integer.parseInt(message)==secret_number)&&(server_main.getGuessed())) { // this user guessed the number but someone else got it first
+					out_socket.println("User " + server_main.getWhoGuessedIt() + " has already guessed the number!"); // telling this user who is the user that got the number before them
+					socket.close(); // close the socket
+					System.out.println("Client " + client_number + ". has disconnected.");
+					break; // get out of the infinite loop
+				}
+				else if (server_main.getGuessed()) { // regular check if the number has been guessed yet (snice we only get to this point if we haven't checked the number - so we check if someone else has -> if nobody guessed it yet, then continue with the loop
+					out_socket.println("User " + server_main.getWhoGuessedIt() + " has already guessed the number!"); // telling this user who is the user that got the number before them
+					socket.close(); // close the socket
+					System.out.println("Client " + client_number + ". has disconnected.");
+					break; // get out of the infinite loop
+				}
+			}
+			
 			// SOLUTION		
 			
-			socket.close();
-			System.out.println("Client " + client_number + ". has disconnected.");
 			
 		} catch (Exception e) {
 			// TODO: handle exception
