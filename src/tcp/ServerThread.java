@@ -1,4 +1,4 @@
-package bonus_example_1b;
+package bonus_example_2a;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -29,13 +29,15 @@ public class ServerThread implements Runnable {
 			PrintWriter out_socket = new PrintWriter(new OutputStreamWriter (socket.getOutputStream()), true);
 			
 			// SOLUTION
-			String message = "message"; // any string will do here
-			String backwards = "message"; // any string will do here too
+			String message; // this string will store client's messages
+			int secret_number = (int)(Math.random()*20+1); // generating the secret number
 			
-			while(!(message.equalsIgnoreCase("EXIT"))) { // as long as the (previous) message is not "EXIT" (or "exit"), get into the loop
-				message = in_socket.readLine(); // read the newest message from the socket
-				out_socket.println(backwards = new StringBuffer(message).reverse().toString()); // reverse the received string and send it back
-			}
+			do {
+				out_socket.println("Guess a number [1-20]: "); // sending a prompt to the user to guess a number
+				message = in_socket.readLine(); // accepting a message from the user
+			} while (!(Integer.parseInt(message)==secret_number)); // go back to the loop as long the secret number isn't guessed yet
+			
+			out_socket.println("You got it!!!"); // as soon as the condition in our do-while loop isn't met, it means the number has been guessed
 			// SOLUTION		
 			
 			socket.close();

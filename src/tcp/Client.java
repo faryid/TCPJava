@@ -1,4 +1,4 @@
-package bonus_example_1b;
+package bonus_example_2a;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -20,16 +20,15 @@ public class Client {
 		Scanner keyboard = new Scanner (System.in);
 
 		// SOLUTION
-		String message = "message"; // any string will do here
-		System.out.println("To quit, type 'EXIT'");
+		String user_number; // this string will store user's guesses
 		
-		while(!(message.equalsIgnoreCase("TIXE"))) { // as long as the (previous) message is not "EXIT" (or "exit"), get into the loop
-			System.out.print("Enter your text: ");
-			message = keyboard.nextLine(); // read user's input and store it to String "message"
-			out_socket.println(message); // send user's input to the server
-			message = in_socket.readLine(); // receive server's response
-			System.out.println("Result: " + message); // print server's response in console
+		while((in_socket.readLine()).startsWith("Guess")) { // go into the loop as long as server is still saying "Guess a number.."
+			System.out.println("Server says: Guess a number [1-20]."); // prompt the user to guess a number
+			user_number = keyboard.nextLine(); // read user's message
+			out_socket.println(user_number); // send user's message to the server
 		}
+		
+		System.out.println("You got it!!!"); // as soon as the condition in our do-while loop isn't met, it means the number has been guessed
 		// SOLUTION
 		
 		socket.close();
