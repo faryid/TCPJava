@@ -1,4 +1,4 @@
-package tcp;
+package bonus_example_1a;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -10,33 +10,39 @@ import java.util.Scanner;
 public class Client {
 
 	public Client() throws Exception {
-		Socket socket = new Socket("localhost", 8080);
-		System.out.println("connection:start");
+		
+		Socket socket = new Socket("127.0.0.1",2020);
+		System.out.println("Successful connection to the server.");
+		
+		// I/O streams
+		BufferedReader in_socket = new BufferedReader (new InputStreamReader (socket.getInputStream()));
+		PrintWriter out_socket = new PrintWriter (new OutputStreamWriter (socket.getOutputStream()), true);
+		Scanner keyboard = new Scanner (System.in);
 
-		BufferedReader in_socket = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-		PrintWriter out_socket = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
-
-		Scanner keyboard = new Scanner(System.in);
-		String message;
-
-		while (in_socket.readLine().startsWith("connected")) {
-			System.out.print("connection:send:");
-			message = keyboard.nextLine();
-			out_socket.println(message);
-			message = in_socket.readLine();
-			System.out.println("connection:receive:" + message);
+		// SOLUTION
+		String message = "message"; // any string will do here
+		System.out.println("To quit, type 'EXIT'");
+		
+		while(!(message.equalsIgnoreCase("EXIT"))) { // as long as the (previous) message is not "EXIT" (or "exit"), get into the loop
+			System.out.print("Enter your text: ");
+			message = keyboard.nextLine(); // read user's input and store it to String "message"
+			out_socket.println(message); // send user's input to the server
+			message = in_socket.readLine(); // receive server's response
+			System.out.println("Result: " + message); // print server's response in console
 		}
-
+		// SOLUTION
+		
 		socket.close();
-		System.out.println("connection:ended");
+		System.out.println("Socket closed.");
+		
 	}
-
+	
 	public static void main(String[] args) {
 		try {
 			new Client();
 		} catch (Exception e) {
+			// TODO: handle exception
 			e.printStackTrace();
 		}
 	}
-
 }
