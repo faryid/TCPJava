@@ -1,4 +1,4 @@
-package bonus_example_1a;
+package bonus_example_1b;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -30,10 +30,11 @@ public class ServerThread implements Runnable {
 			
 			// SOLUTION
 			String message = "message"; // any string will do here
+			String backwards = "message"; // any string will do here too
 			
 			while(!(message.equalsIgnoreCase("EXIT"))) { // as long as the (previous) message is not "EXIT" (or "exit"), get into the loop
 				message = in_socket.readLine(); // read the newest message from the socket
-				out_socket.println(message.toUpperCase()); // switch the received message to upper case and send it back to the client
+				out_socket.println(backwards = new StringBuffer(message).reverse().toString()); // reverse the received string and send it back
 			}
 			// SOLUTION		
 			

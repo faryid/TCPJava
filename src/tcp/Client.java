@@ -1,4 +1,4 @@
-package bonus_example_1a;
+package bonus_example_1b;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -23,7 +23,7 @@ public class Client {
 		String message = "message"; // any string will do here
 		System.out.println("To quit, type 'EXIT'");
 		
-		while(!(message.equalsIgnoreCase("EXIT"))) { // as long as the (previous) message is not "EXIT" (or "exit"), get into the loop
+		while(!(message.equalsIgnoreCase("TIXE"))) { // as long as the (previous) message is not "EXIT" (or "exit"), get into the loop
 			System.out.print("Enter your text: ");
 			message = keyboard.nextLine(); // read user's input and store it to String "message"
 			out_socket.println(message); // send user's input to the server

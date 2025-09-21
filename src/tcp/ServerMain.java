@@ -1,4 +1,4 @@
-package bonus_example_1a;
+package bonus_example_1b;
 
 import java.net.ServerSocket;
 import java.net.Socket;
